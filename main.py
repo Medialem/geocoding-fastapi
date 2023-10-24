@@ -1,14 +1,14 @@
 from typing import Optional
-
 from fastapi import FastAPI
+from utils import google_map_geocoding
 
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+
+@app.get("/geocoding")
+def geocoding(query: str, token: str):
+    data = google_map_geocoding(query, token)
+    print(f'>>>>>> {data}')
+    return data
